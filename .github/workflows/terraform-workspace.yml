@@ -1,0 +1,43 @@
+name: Terraform Cloud Workspace
+on:
+  pull_request:
+    paths:
+      - .github/workflows/terraform-workspace.yml
+  push:
+    branches:
+      - master
+    paths:
+      - .github/workflows/terraform-workspace.yml
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Whether to apply changes to the Terraform workspace. If false, the workflow will print any planned changes but will not apply them.
+        required: true
+        default: 'false'
+permissions:
+  checks: write
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: TakeScoop/terraform-cloud-workspace-action@v2
+        name: Manage Terraform Workspace
+        id: terraform
+        with:
+          working_directory: ''
+          terraform_version: '1.1.3'
+          terraform_token: "${{ secrets.TF_TOKEN }}"
+          terraform_organization: ryanwholey
+          terraform_host: app.terraform.io
+          apply: "${{ github.event.inputs.apply == 'true' || github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}"
+          vcs_type: github
+          global_remote_state: true
+      - if: ${{steps.terraform.outputs.plan != '' }}
+        name: GitHub Check
+        uses: TakeScoop/terraform-github-check-action@v1
+        with:
+          name: ${{ github.workflow }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          plan: "${{ steps.terraform.outputs.plan }}"
+      - run: |
+          echo "${{fromJson(steps.manager.outputs.output).storage_bucket.value}}"
