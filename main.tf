@@ -1,6 +1,17 @@
 
 resource "aws_kms_key" "secrets" {}
 
+data "aws_kms_secrets" "secrets" {
+  dynamic "secret" {
+    for_each = local.secrets
+
+    content {
+      name    = secret.key
+      payload = secret.value
+    }
+  }
+}
+
 data "aws_iam_policy_document" "decrypt" {
   statement {
     actions   = ["kms:Decrypt"]
@@ -34,3 +45,21 @@ output "key_id" {
   value = aws_kms_key.secrets.id
 }
 
+output "bar" {
+  description = "Bar provider credentials"
+  sensitive   = true
+  value = {
+    token = data.aws_kms_secrets.secrets.plaintext["bar_token"]
+  }
+}
+
+terraform {
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "ryanwholey"
+
+    workspaces {
+      name = "terraform-credential-provider"
+    }
+  }
+}
