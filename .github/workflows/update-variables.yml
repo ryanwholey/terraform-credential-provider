@@ -5,6 +5,7 @@ on:
       - "main"
     paths:
       - encrypted-secrets.tf.json
+  workflow_dispatch:      
 permissions:
   checks: write
 jobs:
