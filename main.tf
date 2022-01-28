@@ -4,7 +4,7 @@ resource "aws_kms_key" "secrets" {}
 data "aws_iam_policy_document" "decrypt" {
   statement {
     actions   = ["kms:Decrypt"]
-    resources = [aws_kms_key.secrets.id]
+    resources = [aws_kms_key.secrets.arn]
   }
 }
 
