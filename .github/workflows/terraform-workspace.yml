@@ -39,5 +39,3 @@ jobs:
           name: ${{ github.workflow }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           plan: "${{ steps.terraform.outputs.plan }}"
-      - run: |
-          echo "${{fromJson(steps.manager.outputs.output).storage_bucket.value}}"

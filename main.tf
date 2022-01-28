@@ -1,7 +1,7 @@
 
 resource "aws_kms_key" "secrets" {}
 
-data "aws_iam_document_policy" "decrypt" {
+data "aws_iam_policy_document" "decrypt" {
   statement {
     actions   = ["kms:Decrypt"]
     resources = [aws_kms_key.secrets.id]
@@ -19,7 +19,7 @@ resource "aws_iam_access_key" "updater" {
 resource "aws_iam_user_policy" "updater" {
   name   = "terraform-workspace-updater"
   user   = aws_iam_user.updater.name
-  policy = data.aws_iam_document_policy.decrypt.json
+  policy = data.aws_iam_policy_document.decrypt.json
 }
 
 output "aws" {
