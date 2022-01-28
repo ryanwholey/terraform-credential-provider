@@ -1,0 +1,31 @@
+name: Update Workspace Variables
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - encrypted-secrets.tf.json
+permissions:
+  checks: write
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ryanwholey/terraform-cloud-remote-state-action@main
+        id: self
+        with:
+          workspace: terraform-credential-provider
+          organization: ryanwholey
+          address: https://app.terraform.io
+          token: ${{ secrets.TF_TOKEN }}
+      - uses: ryanwholey/terraform-cloud-workspace-variable-update-action@main
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-west-2
+        with:
+          organization: ryanwholey
+          token: ${{ secrets.TF_TOKEN }}
+          address: https://app.terraform.io
+          key_id: "${{fromJson(steps.steps.outputs.output).key_id.value}}"
+          secrets_path: ${{github.workspace}}/encrypted-secrets.tf.json
