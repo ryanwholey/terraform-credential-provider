@@ -23,6 +23,7 @@ resource "aws_iam_user_policy" "updater" {
 }
 
 output "aws" {
+  sensitive = true
   value = {
     key_id     = aws_iam_access_key.updater.id
     secret_key = aws_iam_access_key.updater.secret
