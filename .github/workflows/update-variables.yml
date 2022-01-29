@@ -27,6 +27,4 @@ jobs:
           organization: ryanwholey
           token: ${{ secrets.TF_TOKEN }}
           address: https://app.terraform.io
-          secrets_path: ${{github.workspace}}/encrypted-secrets.tf.json
           secrets_json: ${{ toJson(fromJson(steps.secrets.outputs.content).locals.secrets) }}
-            
