@@ -45,6 +45,11 @@ output "key_id" {
   value = aws_kms_key.secrets.id
 }
 
+output "secrets" {
+  sensitive = true
+  value     = aws.aws_kms_secrets.secrets
+}
+
 terraform {
   backend "remote" {
     hostname     = "app.terraform.io"
