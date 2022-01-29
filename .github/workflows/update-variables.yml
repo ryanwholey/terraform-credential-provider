@@ -14,13 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ryanwholey/terraform-cloud-remote-state-action@main
-        id: self
-        with:
-          workspace: terraform-credential-provider
-          organization: ryanwholey
-          address: https://app.terraform.io
-          token: ${{ secrets.TF_TOKEN }}
       - uses: ryanwholey/terraform-cloud-workspace-variable-update-action@main
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -30,5 +23,4 @@ jobs:
           organization: ryanwholey
           token: ${{ secrets.TF_TOKEN }}
           address: https://app.terraform.io
-          key_id: "${{fromJson(steps.self.outputs.output).key_id.value}}"
           secrets_path: ${{github.workspace}}/encrypted-secrets.tf.json
