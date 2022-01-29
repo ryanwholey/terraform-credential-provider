@@ -5,6 +5,7 @@ on:
       - "main"
     paths:
       - encrypted-secrets.tf.json
+      - .github/workflows/update-variables.yml
   workflow_dispatch:      
 permissions:
   checks: write
@@ -12,6 +13,7 @@ jobs:
   update-variables:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: ryanwholey/terraform-cloud-remote-state-action@main
         id: self
         with:
