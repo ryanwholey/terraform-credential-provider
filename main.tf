@@ -47,7 +47,7 @@ output "key_id" {
 
 output "secrets" {
   sensitive = true
-  value     = aws.aws_kms_secrets.secrets
+  value     = data.aws_kms_secrets.secrets
 }
 
 terraform {
