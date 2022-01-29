@@ -9,7 +9,7 @@ on:
 permissions:
   checks: write
 jobs:
-  workspace:
+  update-variables:
     runs-on: ubuntu-latest
     steps:
       - uses: ryanwholey/terraform-cloud-remote-state-action@main
@@ -28,5 +28,5 @@ jobs:
           organization: ryanwholey
           token: ${{ secrets.TF_TOKEN }}
           address: https://app.terraform.io
-          key_id: "${{fromJson(steps.steps.outputs.output).key_id.value}}"
+          key_id: "${{fromJson(steps.self.outputs.output).key_id.value}}"
           secrets_path: ${{github.workspace}}/encrypted-secrets.tf.json
