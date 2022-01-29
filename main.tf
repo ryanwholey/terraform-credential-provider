@@ -33,7 +33,7 @@ resource "aws_iam_user_policy" "updater" {
   policy = data.aws_iam_policy_document.decrypt.json
 }
 
-output "aws" {
+output "updater" {
   sensitive = true
   value = {
     key_id     = aws_iam_access_key.updater.id
@@ -43,14 +43,6 @@ output "aws" {
 
 output "key_id" {
   value = aws_kms_key.secrets.id
-}
-
-output "bar" {
-  description = "Bar provider credentials"
-  sensitive   = true
-  value = {
-    token = data.aws_kms_secrets.secrets.plaintext["bar_token"]
-  }
 }
 
 terraform {
