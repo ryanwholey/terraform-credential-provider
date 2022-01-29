@@ -8,7 +8,7 @@ on:
       - .github/workflows/update-variables.yml
   workflow_dispatch:      
 permissions:
-  checks: write
+  contents: read
 jobs:
   update-variables:
     runs-on: ubuntu-latest
