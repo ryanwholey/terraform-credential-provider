@@ -5,7 +5,7 @@ on:
       - .github/workflows/terraform-workspace.yml
   push:
     branches:
-      - master
+      - main
     paths:
       - .github/workflows/terraform-workspace.yml
   workflow_dispatch:
