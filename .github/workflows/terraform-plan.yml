@@ -12,8 +12,8 @@ jobs:
       - name: Terraform Plan
         uses: dflook/terraform-plan@v1
         env:
-          AWS_ACCESS_KEY_ID: "${{ secrets.ACCESS_KEY_ID }}"
-          AWS_SECRET_ACCESS_KEY: "${{ secrets.SECRET_ACCESS_KEY }}"
-          AWS_REGION: "us-west-2"
+          AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-west-2
         with:
           backend_config: token=${{ secrets.TF_TOKEN }}
