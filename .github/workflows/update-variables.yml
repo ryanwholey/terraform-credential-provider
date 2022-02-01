@@ -2,7 +2,7 @@ name: Update Workspace Variables
 on:
   push:
     branches:
-      - "main"
+      - main
     paths:
       - encrypted-secrets.tf.json
       - .github/workflows/update-variables.yml

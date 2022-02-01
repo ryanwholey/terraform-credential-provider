@@ -15,3 +15,10 @@ jobs:
         with:
           backend_config: token=${{ secrets.TF_TOKEN }}
           auto_approve: true
+      - uses: ryanwholey/terraform-cloud-remote-state-action@main
+        id: provider
+        with:
+          workspace: terraform-credential-provider
+          organization: ryanwholey
+          address: https://app.terraform.io
+          token: ${{ secrets.TF_TOKEN }}
