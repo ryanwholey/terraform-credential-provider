@@ -1,4 +1,3 @@
-
 resource "aws_kms_key" "secrets" {}
 
 data "aws_kms_secrets" "secrets" {
@@ -61,5 +60,3 @@ terraform {
     }
   }
 }
-
-provider "aws" {}
