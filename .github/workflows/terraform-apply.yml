@@ -1,0 +1,17 @@
+name: Terraform Apply
+on:
+  push:
+    branches:
+      - main
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    name: Terraform Apply
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Terraform Apply
+        uses: dflook/terraform-apply@v1
+        with:
+          backend_config: token=${{ secrets.TF_TOKEN }}
+          auto_approve: true
