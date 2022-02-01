@@ -1,5 +1,7 @@
 name: Terraform Plan
+
 on: [pull_request]
+
 jobs:
   plan:
     runs-on: ubuntu-latest
