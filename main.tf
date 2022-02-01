@@ -21,6 +21,27 @@ output "secrets" {
   value     = data.aws_kms_secrets.secrets
 }
 
+output "variables" {
+  sensitive = true
+  value = [
+    {
+      key       = "OKTA_API_TOKEN"
+      value     = data.kms_secrets.secrets["OKTA_API_TOKEN"].value
+      sensitive = true
+    },
+    {
+      key       = "OKTA_BASE_URL"
+      value     = "okta.com"
+      sensitive = false
+    },
+    {
+      key       = "OKTA_ORG_NAME"
+      value     = "dev-446678"
+      sensitive = false
+    },
+  ]
+}
+
 terraform {
   required_version = ">= 1, < 2"
 
