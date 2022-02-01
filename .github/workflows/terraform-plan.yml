@@ -11,8 +11,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: terraform plan
+      - name: Terraform Plan
         uses: dflook/terraform-plan@v1
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
