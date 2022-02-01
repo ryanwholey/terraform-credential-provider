@@ -10,11 +10,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Terraform Apply
-        uses: dflook/terraform-apply@v1
-        with:
-          backend_config: token=${{ secrets.TF_TOKEN }}
-          auto_approve: true
+      # - name: Terraform Apply
+      #   uses: dflook/terraform-apply@v1
+      #   with:
+      #     backend_config: token=${{ secrets.TF_TOKEN }}
+      #     auto_approve: true
       - name: Fetch Remote State
         uses: ryanwholey/terraform-cloud-remote-state-action@main
         id: state
@@ -29,4 +29,4 @@ jobs:
           organization: ryanwholey
           token: ${{ secrets.TF_TOKEN}}
           address: https://app.terraform.io
-          variables: ${{ toJson(fromJson(steps.state.outputs.output).variables) }}
+          variables: ${{ toJson(fromJson(steps.state.outputs.output).variables.Value) }}
