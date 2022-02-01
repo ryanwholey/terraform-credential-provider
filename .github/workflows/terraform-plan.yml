@@ -5,14 +5,15 @@ jobs:
     runs-on: ubuntu-latest
     name: Terraform Plan
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}            
-      AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-      AWS_REGION: us-west-2
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Terraform Plan
         uses: dflook/terraform-plan@v1
+        env:
+          AWS_ACCESS_KEY_ID: "${{ secrets.ACCESS_KEY_ID }}"
+          AWS_SECRET_ACCESS_KEY: "${{ secrets.SECRET_ACCESS_KEY }}"
+          AWS_REGION: "us-west-2"
         with:
           backend_config: token=${{ secrets.TF_TOKEN }}
