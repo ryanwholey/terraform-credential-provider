@@ -26,7 +26,7 @@ output "variables" {
   value = [
     {
       key       = "OKTA_API_TOKEN"
-      value     = data.kms_secrets.secrets["OKTA_API_TOKEN"].value
+      value     = data.aws_kms_secrets.secrets.value.plaintext["OKTA_API_TOKEN"]
       sensitive = true
     },
     {
