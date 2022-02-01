@@ -1,11 +1,9 @@
 name: Terraform Plan
-
 on: [pull_request]
-
 jobs:
   plan:
     runs-on: ubuntu-latest
-    name: Create terraform plan
+    name: Terraform Plan
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}            
     steps:
