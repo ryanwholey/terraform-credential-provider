@@ -23,11 +23,11 @@ output "secrets" {
 output "variables" {
   sensitive = true
   value = [
-    {
-      key       = "OKTA_API_TOKEN"
-      value     = data.aws_kms_secrets.secrets.plaintext["OKTA_API_TOKEN"]
-      sensitive = true
-    },
+    # {
+    #   key       = "OKTA_API_TOKEN"
+    #   value     = data.aws_kms_secrets.secrets.plaintext["OKTA_API_TOKEN"]
+    #   sensitive = true
+    # },
     {
       key       = "OKTA_BASE_URL"
       value     = "okta.com"
