@@ -24,19 +24,25 @@ output "variables" {
   sensitive = true
   value = [
     # {
-    #   key       = "OKTA_API_TOKEN"
-    #   value     = data.aws_kms_secrets.secrets.plaintext["OKTA_API_TOKEN"]
-    #   sensitive = true
+    #   key         = "OKTA_API_TOKEN"
+    #   value       = data.aws_kms_secrets.secrets.plaintext["OKTA_API_TOKEN"]
+    #   sensitive   = true
+    #   category    = "env"
+    #   description = "An Okta API token"
     # },
     {
-      key       = "OKTA_BASE_URL"
-      value     = "okta.com"
-      sensitive = false
+      key         = "OKTA_BASE_URL"
+      value       = "okta.com"
+      sensitive   = false
+      category    = "env"
+      description = "The base Okta URL"
     },
     {
-      key       = "OKTA_ORG_NAME"
-      value     = "dev-446678"
-      sensitive = false
+      key         = "OKTA_ORG_NAME"
+      value       = "dev-446678"
+      sensitive   = false
+      category    = "env"
+      description = "The Okta organization name"
     },
   ]
 }
