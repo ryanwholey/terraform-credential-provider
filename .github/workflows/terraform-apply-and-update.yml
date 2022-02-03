@@ -30,3 +30,4 @@ jobs:
           token: ${{ secrets.TF_TOKEN}}
           address: https://app.terraform.io
           variables: ${{ toJson(fromJson(steps.state.outputs.output).variables.Value) }}
+          workspace_tag: add-provider-config
