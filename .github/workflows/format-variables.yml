@@ -7,7 +7,7 @@ on:
         type: string
         description: Variables to append to the remote variables list
     secrets:
-      tf_token:
+      TF_TOKEN:
         required: true
         description: A Terraform Cloud token
     outputs:
