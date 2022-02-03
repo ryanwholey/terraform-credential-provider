@@ -12,7 +12,7 @@ on:
         description: A Terraform Cloud token
     outputs:
       variables:
-        description: The output in YAML format
+        description: The formatted variables as a JSON list
         value: ${{ jobs.format-variables.outputs.variables }}
 jobs:
   format-variables:
