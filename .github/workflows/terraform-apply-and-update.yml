@@ -23,11 +23,12 @@ jobs:
           organization: ryanwholey
           address: https://app.terraform.io
           token: ${{ secrets.TF_TOKEN }}
+          target: variables
       - name: Update Workspace Variables
         uses: ryanwholey/terraform-cloud-workspace-variable-update-action@main
         with:
           organization: ryanwholey
           token: ${{ secrets.TF_TOKEN}}
           address: https://app.terraform.io
-          variables: ${{ toJson(fromJson(steps.state.outputs.output).variables.Value) }}
+          variables: ${{ steps.state.outputs.output }}
           workspace_tag: add-provider-config
