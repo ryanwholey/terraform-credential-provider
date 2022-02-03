@@ -11,7 +11,7 @@ on:
         required: true
         description: A Terraform Cloud token
     outputs:
-      yaml:
+      variables:
         description: The output in YAML format
         value: ${{ jobs.format-variables.outputs.variables }}
 jobs:
