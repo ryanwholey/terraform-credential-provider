@@ -13,11 +13,12 @@ on:
     outputs:
       yaml:
         description: The output in YAML format
-        value: ${{ steps.yaml.outputs.yaml }}
+        value: ${{ jobs.format-variables.outputs.yaml }}
 jobs:
   format-variables:
     runs-on: ubuntu-latest
-    environment: production
+    outputs:
+      yaml: ${{ steps.yaml.outputs.yaml }}
     steps:
       - name: Fetch Workspace Variables
         uses: ryanwholey/terraform-cloud-remote-state-action@main
