@@ -13,12 +13,12 @@ on:
     outputs:
       yaml:
         description: The output in YAML format
-        value: ${{ jobs.format-variables.outputs.yaml }}
+        value: ${{ jobs.format-variables.outputs.variables }}
 jobs:
   format-variables:
     runs-on: ubuntu-latest
     outputs:
-      yaml: ${{ steps.yaml.outputs.yaml }}
+      variables: ${{ toJson(fromJson(steps.provider.outputs.output).variables.Value) }}
     steps:
       - name: Fetch Workspace Variables
         uses: ryanwholey/terraform-cloud-remote-state-action@main
@@ -28,8 +28,3 @@ jobs:
           organization: ryanwholey
           address: https://app.terraform.io
           token: ${{ secrets.TF_TOKEN }}
-      - name: Convert variables to YAML
-        uses: ryanwholey/json-to-yaml-action@main
-        id: yaml
-        with:
-          json: ${{ toJson(fromJson(steps.provider.outputs.output).variables.Value) }}   
