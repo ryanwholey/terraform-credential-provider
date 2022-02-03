@@ -18,7 +18,7 @@ jobs:
   format-variables:
     runs-on: ubuntu-latest
     outputs:
-      variables: ${{ toJson(fromJson(steps.provider.outputs.output).variables.Value) }}
+      variables: ${{ steps.provider.outputs.output }}
     steps:
       - name: Fetch Workspace Variables
         uses: ryanwholey/terraform-cloud-remote-state-action@main
