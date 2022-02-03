@@ -18,7 +18,7 @@ jobs:
   format-variables:
     runs-on: ubuntu-latest
     outputs:
-      variables: ${{ toJson(fromJson(steps.provider.outputs.output).variables.Value) }}
+      variables: ${{ steps.mask.outputs.state }}
     steps:
       - name: Fetch Workspace Variables
         uses: ryanwholey/terraform-cloud-remote-state-action@main
@@ -28,3 +28,10 @@ jobs:
           organization: ryanwholey
           address: https://app.terraform.io
           token: ${{ secrets.TF_TOKEN }}
+      - name: Mask
+        id: mask
+        run: |- 
+          echo "::add-mask::$STATE"
+          echo "::set-output name=state::$STATE"
+        env:
+          STATE: ${{ toJson(fromJson(steps.provider.outputs.output).variables.Value) }}
