@@ -1,0 +1,34 @@
+name: Format Terraform Cloud Variables
+on:
+  workflow_call:
+    inputs:
+      variables:
+        required: false
+        type: string
+        description: Variables to append to the remote variables list
+    secrets:
+      tf_token:
+        required: true
+        description: A Terraform Cloud token
+    outputs:
+      yaml:
+        description: The output in YAML format
+        value: ${{ steps.yaml.outputs.yaml }}
+jobs:
+  format-variables:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Fetch Workspace Variables
+        uses: ryanwholey/terraform-cloud-remote-state-action@main
+        id: provider
+        with:
+          workspace: terraform-credential-provider
+          organization: ryanwholey
+          address: https://app.terraform.io
+          token: ${{ secrets.TF_TOKEN }}
+      - name: Convert variables to YAML
+        uses: ryanwholey/json-to-yaml-action@main
+        id: yaml
+        with:
+          json: ${{ toJson(fromJson(steps.provider.outputs.output).variables.Value) }}   
