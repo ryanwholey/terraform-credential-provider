@@ -24,6 +24,7 @@ jobs:
           address: https://app.terraform.io
           token: ${{ secrets.TF_TOKEN }}
           target: variables
+          sensitive: false
       - name: Update Workspace Variables
         uses: ryanwholey/terraform-cloud-workspace-variable-update-action@main
         with:
