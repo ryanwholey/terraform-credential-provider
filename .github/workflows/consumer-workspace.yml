@@ -1,0 +1,86 @@
+name: Organization Specific Consumer Terraform Workspace
+on:
+  workflow_call:
+    inputs:
+      terraform_version:
+        required: true
+        type: string
+        description: Terraform version
+      apply:
+        required: true
+        type: boolean
+        description: Whether to apply the Terraform workspace plan
+
+      add_organization_variables:
+        required: false
+        type: boolean
+        default: true
+      tags:
+        required: false
+        type: string
+        default: '[]'
+    secrets:
+      terraform_token:
+        required: true
+        description: A Terraform Cloud token
+      variables:
+        required: false
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    steps:
+      - if: ${{ inputs.add_organization_variables }}
+        name: Fetch Workspace Variables
+        uses: ryanwholey/terraform-cloud-remote-state-action@main
+        id: provider
+        with:
+          workspace: terraform-credential-provider
+          organization: ryanwholey
+          address: https://app.terraform.io
+          token: ${{ secrets.terraform_token }}
+          target: variables
+      - name: Format Variables
+        uses: actions/github-script@v5
+        id: script-variables
+        with:
+          script: |-
+            let orgVars = []
+
+            if (${{ inputs.add_organization_variables }}) {
+              orgVars = JSON.parse(`${{ steps.provider.outputs.output }}`)
+            }
+
+            const inputVars = JSON.parse(`${{ secrets.variables }}` || '[]')
+            
+            const merged = JSON.stringify([...orgVars, ...inputVars])
+
+            core.setSecret(merged)
+
+            return merged
+          result-encoding: string
+      - name: Merge Workspace Tags
+        uses: actions/github-script@v5
+        id: tags
+        with:
+          script: |-
+            if (${{ inputs.add_organization_variables }}) {
+              return JSON.stringify(['add-provider-config', ...JSON.parse(`${{ inputs.tags }}`)])
+            }
+
+            return ${{ inputs.tags }}
+          result-encoding: string    
+      - uses: TakeScoop/terraform-cloud-workspace-action@v2
+        name: Manage Terraform Workspaces
+        id: terraform
+        with:
+          variables: |-
+            ${{ steps.script-variables.outputs.result }}
+          terraform_version: ${{ inputs.terraform_version }}
+          terraform_token: "${{ secrets.terraform_token }}"
+          terraform_organization: ryanwholey
+          terraform_host: app.terraform.io
+          apply: ${{ inputs.apply }}
+          vcs_type: github
+          global_remote_state: true
+          tags: ${{ steps.tags.outputs.result }}
+            
