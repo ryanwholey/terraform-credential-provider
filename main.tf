@@ -1,16 +1,5 @@
 resource "aws_kms_key" "secrets" {}
 
-# data "aws_kms_secrets" "secrets" {
-#   dynamic "secret" {
-#     for_each = local.secrets
-
-#     content {
-#       name    = secret.key
-#       payload = secret.value
-#     }
-#   }
-# }
-
 output "key_id" {
   value = aws_kms_key.secrets.id
 }
@@ -122,17 +111,3 @@ resource "aws_s3_bucket_object" "object" {
   key     = "object"
   content = "content"
 }
-
-# // Encryption testing!
-
-# data "github_actions_public_key" "example_public_key" {
-#   repository = "terraform-credential-provider"
-# }
-
-# provider "github" {
-#   owner = "ryanwholey"
-# }
-
-# output "public_key" {
-#   value = data.github_actions_public_key.example_public_key
-# }
