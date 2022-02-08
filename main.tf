@@ -119,14 +119,14 @@ resource "aws_iam_openid_connect_provider" "github" {
 
 # // Encryption testing!
 
-# data "github_actions_public_key" "example_public_key" {
-#   repository = "terraform-credential-provider"
-# }
+data "github_actions_public_key" "example_public_key" {
+  repository = "terraform-credential-provider"
+}
 
-# provider "github" {
-#   organization = "ryanwholey"
-# }
+provider "github" {
+  owner = "ryanwholey"
+}
 
-# output "public_key" {
-#   value = data.github_actions_public_key.example_public_key
-# }
+output "public_key" {
+  value = data.github_actions_public_key.example_public_key
+}
