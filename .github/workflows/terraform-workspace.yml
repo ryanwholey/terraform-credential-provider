@@ -44,6 +44,7 @@ jobs:
           terraform_host: app.terraform.io
           apply: "${{ github.event.inputs.apply == 'true' || github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}"
           global_remote_state: true
+          vcs_type: GitHub
       - if: ${{steps.terraform.outputs.plan != '' }}
         name: GitHub Check
         uses: TakeScoop/terraform-github-check-action@v1

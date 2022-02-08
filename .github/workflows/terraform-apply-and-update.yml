@@ -1,34 +1,34 @@
-name: Terraform Apply
-on:
-  push:
-    branches:
-      - main
-jobs:
-  apply:
-    runs-on: ubuntu-latest
-    name: Terraform Apply
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Terraform Apply
-        uses: dflook/terraform-apply@v1
-        with:
-          backend_config: token=${{ secrets.TF_TOKEN }}
-          auto_approve: true
-      - name: Fetch Remote State
-        uses: ryanwholey/terraform-cloud-remote-state-action@main
-        id: state
-        with:
-          workspace: terraform-credential-provider
-          organization: ryanwholey
-          address: https://app.terraform.io
-          token: ${{ secrets.TF_TOKEN }}
-          target: variables
-      - name: Update Workspace Variables
-        uses: ryanwholey/terraform-cloud-workspace-variable-update-action@main
-        with:
-          organization: ryanwholey
-          token: ${{ secrets.TF_TOKEN}}
-          address: https://app.terraform.io
-          variables: ${{ steps.state.outputs.output }}
-          workspace_tag: add-provider-config
+# name: Terraform Apply
+# on:
+#   push:
+#     branches:
+#       - main
+# jobs:
+#   apply:
+#     runs-on: ubuntu-latest
+#     name: Terraform Apply
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+#       - name: Terraform Apply
+#         uses: dflook/terraform-apply@v1
+#         with:
+#           backend_config: token=${{ secrets.TF_TOKEN }}
+#           auto_approve: true
+#       - name: Fetch Remote State
+#         uses: ryanwholey/terraform-cloud-remote-state-action@main
+#         id: state
+#         with:
+#           workspace: terraform-credential-provider
+#           organization: ryanwholey
+#           address: https://app.terraform.io
+#           token: ${{ secrets.TF_TOKEN }}
+#           target: variables
+#       - name: Update Workspace Variables
+#         uses: ryanwholey/terraform-cloud-workspace-variable-update-action@main
+#         with:
+#           organization: ryanwholey
+#           token: ${{ secrets.TF_TOKEN}}
+#           address: https://app.terraform.io
+#           variables: ${{ steps.state.outputs.output }}
+#           workspace_tag: add-provider-config
