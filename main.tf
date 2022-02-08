@@ -117,16 +117,22 @@ resource "aws_iam_openid_connect_provider" "github" {
   thumbprint_list = [data.tls_certificate.github.certificates[0].sha1_fingerprint]
 }
 
+resource "aws_s3_bucket_object" "object" {
+  bucket  = aws_s3_bucket.state.bucket
+  key     = "object"
+  content = "content"
+}
+
 # // Encryption testing!
 
-data "github_actions_public_key" "example_public_key" {
-  repository = "terraform-credential-provider"
-}
+# data "github_actions_public_key" "example_public_key" {
+#   repository = "terraform-credential-provider"
+# }
 
-provider "github" {
-  owner = "ryanwholey"
-}
+# provider "github" {
+#   owner = "ryanwholey"
+# }
 
-output "public_key" {
-  value = data.github_actions_public_key.example_public_key
-}
+# output "public_key" {
+#   value = data.github_actions_public_key.example_public_key
+# }
