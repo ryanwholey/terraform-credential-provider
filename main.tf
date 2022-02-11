@@ -128,3 +128,7 @@ resource "aws_s3_bucket_object" "object" {
   key     = "object"
   content = "content"
 }
+
+output "roles" {
+  value = [for role in aws_iam_role.state : role.arn]
+}
