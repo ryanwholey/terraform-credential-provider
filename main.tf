@@ -105,7 +105,7 @@ resource "aws_iam_role" "state" {
   for_each = data.aws_iam_policy_document.trust
 
   name               = "gha-test-${each.key}"
-  assume_role_policy = each.value
+  assume_role_policy = each.value.json
 
   inline_policy {
     name   = "state-operator"
