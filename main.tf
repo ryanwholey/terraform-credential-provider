@@ -64,12 +64,27 @@ resource "aws_s3_bucket" "state" {
   bucket = "ryanwholey-test-terraform-state"
 }
 
-data "aws_iam_policy_document" "assume" {
+
+locals {
+  owner = "ryanwholey"
+  repo  = "terraform-credential-consumer"
+}
+
+// 	repo:octo-org/octo-repo:ref:refs/heads/demo-branch
+data "aws_iam_policy_document" "trust" {
+  for_each = {
+    org_wildcard    = ["repo:${local.owner}/*"]
+    org_repo        = ["repo:${local.owner}/${local.repo}:*"]
+    branch_default  = ["repo:${local.owner}/${local.repo}:ref:refs/heads/main"]
+    branch_wildcard = ["repo:${local.owner}/${local.repo}:ref:refs/heads/*"]
+    pull_request    = ["repo:${local.owner}/${local.repo}:pull_request"]
+    tag             = ["repo:${local.owner}/${local.repo}:ref:refs/tags/tagName"]
+  }
   statement {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:ryanwholey/*"]
+      values   = each.value
     }
     principals {
       type        = "Federated"
@@ -87,8 +102,10 @@ data "aws_iam_policy_document" "operator" {
 }
 
 resource "aws_iam_role" "state" {
-  name               = "test-terraform-state"
-  assume_role_policy = data.aws_iam_policy_document.assume.json
+  for_each = data.aws_iam_policy_document.trust
+
+  name               = "gha-test-${each.key}"
+  assume_role_policy = each.value
 
   inline_policy {
     name   = "state-operator"
