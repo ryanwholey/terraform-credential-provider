@@ -79,6 +79,7 @@ data "aws_iam_policy_document" "trust" {
     branch_wildcard = ["repo:${local.owner}/${local.repo}:ref:refs/heads/*"]
     pull_request    = ["repo:${local.owner}/${local.repo}:pull_request"]
     tag             = ["repo:${local.owner}/${local.repo}:ref:refs/tags/tagName"]
+    environment     = ["repo:${local.owner}/${local.repo}:environment:production"]
   }
   statement {
     condition {
