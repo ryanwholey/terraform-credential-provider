@@ -20,7 +20,7 @@ jobs:
   workspace:
     runs-on: ubuntu-latest
     steps:
-      - uses: TakeScoop/terraform-cloud-workspace-action@v2
+      - uses: TakeScoop/terraform-cloud-workspace-action@master
         name: Manage Terraform Workspace
         id: terraform
         with:
